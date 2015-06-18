@@ -1,5 +1,5 @@
 FROM gliderlabs/alpine:3.2
-MAINTAINER John Regan <john@jrjrtech.com>
+MAINTAINER hello@neilellis.me
 
 COPY rootfs /
 
