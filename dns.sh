@@ -1,2 +1,2 @@
 #!/bin/sh
-exec dnsmasq -k -S /consul/10.17.0.2
+exec dnsmasq -k -S /tutum.io/8.8.8.8
