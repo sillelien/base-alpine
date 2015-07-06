@@ -1,6 +1,6 @@
 # base-alpine 
 
-A simple but powerful base image, based on Alpine Linux with S6 as a process supervisor and dnsmasq.
+A simple but powerful base image, based on Alpine Linux with S6 as a process supervisor and dnsmasq both of which have extremely small footprints adding virtually no runtime overhead and a minimal filesystem overhead.
 
 This image aims to be a suitable base image for people who want to deploy to [Tutum](http://tutum.co).
 
