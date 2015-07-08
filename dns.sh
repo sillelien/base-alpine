@@ -1,2 +1,2 @@
 #!/bin/sh -x
-exec dnsmasq --server=/tutum.io/8.8.8.8 --no-daemon
+exec dnsmasq --server=/tutum.io/162.159.24.22 --server=/tutum.io/162.159.25.72 --no-daemon
