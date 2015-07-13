@@ -6,6 +6,8 @@ Why a supervisor process? Firstly because it solves the [PID 1 Zombie Problem](h
 
 Running multiple 'applications' in a single container is of course not The Docker Way (tm) - however running multiple *processes* is often required. [S6](http://skarnet.org/software/s6/) provides a very simple, low resource and elegant processor supervisor which fits in well with the Alpine Linux minimalism.
 
+Also this image supports syslog logging, all syslog messages will be sent to stderr - no more losing syslog logging!
+
 This image aims to be a suitable base image for people who want to deploy to [Tutum](http://tutum.co) - hence why it has a specific dnsmasq service for tutum.io.
 
 [![](https://badge.imagelayers.io/vizzbuzz/base-alpine.svg)](https://imagelayers.io/?images=vizzbuzz/base-alpine:latest 'Get your own badge on imagelayers.io')
