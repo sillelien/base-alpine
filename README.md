@@ -41,6 +41,9 @@ You can of course install bash - and why not?. Doing so will add a few more meg 
 COPY myservice.sh /etc/services.d/myservice/run
 RUN chmod 755 /etc/services.d/myservice/run
 ```
+### Syslog
+
+The base image contains a running syslog daemon, which is set to send all output to `stderr` - this ensures you don't lose any messages sent by Linux applications.
 
 ## Good Practises
 
@@ -93,6 +96,18 @@ rm -rf /var/cache/apk/*
 ```
 
 This will clean up any mess you created while building. `set -e` causes the script to fail on any single commands failure and `set -x` lists all commands executed to `stderr`
+
+
+### Consider logging using `logger` 
+
+The [logger](http://man7.org/linux/man-pages/man1/logger.1.html) command is a command-line tool to send the output of another command to syslog simply by doing
+
+```BASH
+ mycommand 2>&1 | logger
+```
+
+I would advise using it where possible instead of just sending output directly to stderr - this means that if you decide to collect your log entries via syslog at a later time you won't need to change your app.
+
 
 ##Credits
 
