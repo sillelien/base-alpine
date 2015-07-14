@@ -51,7 +51,7 @@ The base image contains a running syslog daemon, which is set to send all output
 
 ## Good Practises
 
-###Don't Run as Root
+### Don't Run as Root
 
 During the build we run:
 
@@ -59,7 +59,7 @@ During the build we run:
 RUN addgroup -g 999 app && adduser -D  -G app -s /bin/false -u 999 app
 ```
 
-This creates a non root user for you to use. Then in your S6 scripts run your commands using:
+This creates a non root user for you to use. Then in your S6 scripts you can run your commands using:
 
 ```BASH
 #!/usr/bin/env sh
@@ -75,7 +75,7 @@ Don't put `RUN` instructions in your `Dockerfile`, instead create a `build.sh` s
 
 ```Dockerfile
 COPY build.sh /build.sh
-RUN chmod 755 build.sh
+RUN chmod 755 /build.sh
 RUN /build.sh
 ```
 
@@ -127,7 +127,7 @@ You can search for packages by name or by file contents here: http://pkgs.alpine
 
 `apk add curl ca-certificates`
  
-### The standard built tools
+### The standard build tools
  
  `apk add make gcc build-base`
  
