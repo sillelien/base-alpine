@@ -109,6 +109,35 @@ The [logger](http://man7.org/linux/man-pages/man1/logger.1.html) command is a co
 I would advise using it where possible instead of just sending output directly to stderr - this means that if you decide to collect your log entries via syslog at a later time you won't need to change your app.
 
 
+## Differences to Ubuntu
+
+### APK not APT
+
+Instead of `apt-get install -y` you have `apk add`
+
+### Find packages 
+
+You can search for packages by name or by file contents here: http://pkgs.alpinelinux.org/packages
+
+### Curl needs to be added
+
+`apk add curl ca-certificates`
+ 
+### The standard built tools
+ 
+ `apk add make gcc build-base`
+ 
+### Python
+ 
+ `apk add python python-dev py-pip`
+ 
+ `curl https://bootstrap.pypa.io/ez_setup.py  | python`
+ 
+### Java
+ 
+ Use our `vizzbuzz/base-java` image which adds Java to this image.
+
+
 ##Credits
 
 Originally taken from https://github.com/just-containers/base-alpine credit to John Regan <john@jrjrtech.com>
