@@ -54,8 +54,10 @@ RUN addgroup -g 999 app && adduser -D  -G app -s /bin/false -u 999 app
 
 This creates a non root user for you use. Then in your S6 scripts run your commands using:
 
+```BASH
 #!/usr/bin/env sh
 exec s6-applyuidgid -u 999 -g 999 mycommand.sh 
+```
 
 The `exec` will write over the shell's process space reducing the memory overhead and `s6-applyuidgid -u 999 -g 999` will run it as `app` the non root user.
 
