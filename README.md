@@ -45,6 +45,10 @@ RUN chmod 755 /etc/services.d/myservice/run
 
 The base image contains a running syslog daemon, which is set to send all output to `stderr` - this ensures you don't lose any messages sent by Linux applications.
 
+### Dnsmasq
+
+`dnsmasq` is a tiny (uses about 17K of memory) DNS cache and forwarder. By default it ensures that all requests to tutum.io goes to the correct DNS servers. You can change this to anything you like using the environment variable DNSMASQ_ARGS
+
 ## Good Practises
 
 ###Don't Run as Root

@@ -13,4 +13,4 @@ RUN tar xvfz /tmp/s6-overlay.tar.gz -C / && apk -U add dnsmasq && chmod 755 /etc
   adduser -D  -G app -s /bin/false -u 999 app
 
 ENTRYPOINT ["/init"]
-CMD []
+CMD [ "/bin/ash","-c","sleep $((2^32-1))" ]
