@@ -19,6 +19,13 @@ Also this image supports syslog logging, all syslog messages will be sent to std
 
 This image aims to be a suitable base image for people who want to deploy to [Tutum](http://tutum.co) - hence why it has a specific dnsmasq service for tutum.io.
 
+## Usage Notes
+### Shell
+
+Alpine Linux uses [BusyBox](http://www.busybox.net/) to provide a lot of the core Unix/Linux utilities. As part of that we get the [Ash](http://linux.die.net/man/1/ash) shell, which is very similar to the Bourne (BASH) shell. Just make sure you realise there are differences, it is almost POSIX compliant, so if in doubt use the POSIX complaint syntax rather than BASH extensions.
+ 
+You can of course install bash - and why not?. Doing so will add a few more meg to your *tiny* image.
+
 [![](https://badge.imagelayers.io/vizzbuzz/base-alpine.svg)](https://imagelayers.io/?images=vizzbuzz/base-alpine:latest 'Get your own badge on imagelayers.io')
 
 ##Credits
