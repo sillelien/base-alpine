@@ -53,13 +53,13 @@ The base image contains a running syslog daemon, which is set to send all output
 
 ###Don't Run as Root
 
-During the build run:
+During the build we run:
 
 ```Dockerfile
 RUN addgroup -g 999 app && adduser -D  -G app -s /bin/false -u 999 app
 ```
 
-This creates a non root user for you use. Then in your S6 scripts run your commands using:
+This creates a non root user for you to use. Then in your S6 scripts run your commands using:
 
 ```BASH
 #!/usr/bin/env sh
