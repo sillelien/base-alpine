@@ -18,7 +18,7 @@ done
 
 while true
 do
-    cp -f /etc/hosts.orig /tmp/hosts
+    echo "#Auto Generated - DO NOT CHANGE" > /tmp/hosts
     for env_var in $env_vars
     do
       link=${env_var%_NAME}
@@ -29,14 +29,14 @@ do
       then
         echo "${ip} ${link}" >> /tmp/hosts
       else
-         logger "ip ${link}.${domain} skipped, it didn't resolve."
+        logger "ip ${link}.${domain} skipped, it didn't resolve."
       fi
     done
 
      if ! diff /tmp/hosts /etc/hosts.links
      then
         cp -f /tmp/hosts /etc/hosts.links
-        killall -SIGHUP dnsmasq
+        killall -HUP dnsmasq
      fi
 
     sleep 30

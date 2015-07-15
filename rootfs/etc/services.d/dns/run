@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-exec dnsmasq ${DNSMASQ_ARGS:- --server=/node.tutum.io/162.159.24.22 --server=/cont.tutum.io/162.159.24.22 --server=/svc.tutum.io/162.159.25.72} --log-queries  --expand-hosts  --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links --no-daemon 2>&1 | logger
+exec dnsmasq ${DNSMASQ_ARGS} --log-queries  --expand-hosts  --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links --no-daemon 2>&1 | logger
