@@ -5,4 +5,4 @@ then
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
     cat /etc/dnsmasq-resolv.conf | grep search >> /etc/resolv.conf
 fi
-exec dnsmasq ${DNSMASQ_ARGS:- --server=/node.tutum.io/162.159.24.22 --server=/cont.tutum.io/162.159.24.22 --server=/svc.tutum.io/162.159.25.72} --resolv-file=/etc/dnsmasq-resolv.conf --no-daemon 2>&1 | logger
+exec dnsmasq ${DNSMASQ_ARGS:- --server=/node.tutum.io/162.159.24.22 --server=/cont.tutum.io/162.159.24.22 --server=/svc.tutum.io/162.159.25.72} --expand-hosts --resolv-file=/etc/dnsmasq-resolv.conf --no-daemon 2>&1 | logger
