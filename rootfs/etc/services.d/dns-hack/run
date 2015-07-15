@@ -4,12 +4,6 @@ then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
 fi
-if [ ! -f /etc/hosts.orig ]
-then
-    cp /etc/hosts /etc/hosts.orig
-fi
-
-env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ')
 
 while ! ps -ef | grep -v grep | grep dnsmasq-resolv.conf
 do
@@ -18,6 +12,7 @@ done
 
 while true
 do
+    env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ')
     echo "#Auto Generated - DO NOT CHANGE" > /tmp/hosts
     for env_var in $env_vars
     do
