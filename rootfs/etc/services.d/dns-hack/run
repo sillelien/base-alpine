@@ -17,9 +17,15 @@ do
   link=${env_var%_NAME}
   domain=$(cat /etc/dnsmasq-resolv.conf | grep search | cut -d' ' -f2)
   nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
-  ip=$(nslookup "${link}.${domain}" ${nameserver} | grep "${link}.${domain}" | grep Address | cut -d: -f2  | cut -d' ' -f2)
-  echo "ip ${link}.${domain}" >> tmp/hosts
+  ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2)
+  if [ -n "$ip" ]
+  then
+    echo "ip ${link}.${domain}" >> tmp/hosts
+  else
+     logger "ip ${link}.${domain} skipped, it didn't resolve."
+  fi
 done
+
 cp -f /tmp/hosts /etc/hosts.links
 
 sleep 2147483647
