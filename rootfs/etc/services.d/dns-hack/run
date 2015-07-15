@@ -28,4 +28,8 @@ done
 
 cp -f /tmp/hosts /etc/hosts.links
 
+sleep 2
+
+killall -SIGHUP dnsmasq
+
 sleep 2147483647
