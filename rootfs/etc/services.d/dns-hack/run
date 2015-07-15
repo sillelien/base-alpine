@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/with-contenv sh
 if [ ! -f /etc/dnsmasq-resolv.conf ]
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
