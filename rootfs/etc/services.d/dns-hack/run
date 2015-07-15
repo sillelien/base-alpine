@@ -11,25 +11,29 @@ fi
 
 env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ')
 
-cp -f /etc/hosts.orig /tmp/hosts
-for env_var in $env_vars
+while ! ps -ef | grep -v grep | grep dnsmasq-resolv.conf
 do
-  link=${env_var%_NAME}
-  domain=$(cat /etc/dnsmasq-resolv.conf | grep search | cut -d' ' -f2)
-  nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
-  ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2)
-  if [ -n "$ip" ]
-  then
-    echo "${ip} ${link}" >> /tmp/hosts
-  else
-     logger "ip ${link}.${domain} skipped, it didn't resolve."
-  fi
+    sleep 1
 done
 
-cp -f /tmp/hosts /etc/hosts.links
+while true
+do
+    cp -f /etc/hosts.orig /tmp/hosts
+    for env_var in $env_vars
+    do
+      link=${env_var%_NAME}
+      domain=$(cat /etc/dnsmasq-resolv.conf | grep search | cut -d' ' -f2)
+      nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
+      ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2)
+      if [ -n "$ip" ]
+      then
+        echo "${ip} ${link}" >> /tmp/hosts
+      else
+         logger "ip ${link}.${domain} skipped, it didn't resolve."
+      fi
+    done
 
-sleep 2
-
-killall -SIGHUP dnsmasq
-
-sleep 2147483647
+    cp -f /tmp/hosts /etc/hosts.links
+    killall -SIGHUP dnsmasq
+    sleep 30
+done
