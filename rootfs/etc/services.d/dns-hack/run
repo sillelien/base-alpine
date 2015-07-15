@@ -36,8 +36,8 @@ do
      if ! diff /tmp/hosts /etc/hosts.links
      then
         cp -f /tmp/hosts /etc/hosts.links
+        killall -SIGHUP dnsmasq
      fi
 
-    killall -SIGHUP dnsmasq
     sleep 30
 done
