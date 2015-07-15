@@ -8,7 +8,7 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v1.13.0.0/s6
 
 RUN tar xvfz /tmp/s6-overlay.tar.gz -C / && \
   apk -U add dnsmasq && \
-  chmod 755 /etc/services.d/dns/run /etc/services.d/syslog/run && \
+  chmod 755 /etc/services.d/dns/run /etc/services.d/dns-hack/run /etc/services.d/syslog/run && \
   mkdir /app && \
   echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
   addgroup -g 999 app && \
