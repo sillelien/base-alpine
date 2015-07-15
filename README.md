@@ -17,8 +17,6 @@ Running multiple 'applications' in a single container is of course not The Docke
 
 Also this image supports syslog logging, all syslog messages will be sent to stderr - no more losing syslog logging!
 
-This image aims to be a suitable base image for people who want to deploy to [Tutum](http://tutum.co) - hence why it has a specific dnsmasq service for tutum.io.
-
 ## Usage Notes
 
 ### Shell
@@ -41,13 +39,22 @@ You can of course install bash - and why not?. Doing so will add a few more meg 
 COPY myservice.sh /etc/services.d/myservice/run
 RUN chmod 755 /etc/services.d/myservice/run
 ```
+
+Note: If you want to get access to environment variables passed in to your container start your scripts with:
+
+```shell
+#!/usr/bin/with-contenv sh
+```
+
 ### Syslog
 
 The base image contains a running syslog daemon, which is set to send all output to `stderr` - this ensures you don't lose any messages sent by Linux applications.
 
-### Dnsmasq
+### DNS and the Alpine resolv.conf problem.
 
-`dnsmasq` is a tiny (uses about 17K of memory) DNS cache and forwarder. By default it ensures that all requests to tutum.io goes to the correct DNS servers. You can change this to anything you like using the environment variable DNSMASQ_ARGS
+The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.org/wiki/Functional_differences_from_glibc#Name_Resolver_.2F_DNS) not to support the `search` or `domain` options in resolv.conf. This means that systems that rely on that behaviour (include Tutum.co) cannot use Alpine Linux properly. This base image does some [magic](https://github.com/vizzbuzz/base-alpine/blob/master/rootfs/etc/services.d/dns-hack/run) for you to make sure that all linked containers resolv to their shortnames correctly. This magic works hand in hand with `dnsmasq` which is a tiny (uses about 17K of memory) DNS cache and forwarder. 
+
+You can add additional flags using the environment variable DNSMASQ_ARGS
 
 ## Good Practises
 
