@@ -20,7 +20,7 @@ do
   ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2)
   if [ -n "$ip" ]
   then
-    echo "${ip} ${link}.${domain}" >> /tmp/hosts
+    echo "${ip} ${link}" >> /tmp/hosts
   else
      logger "ip ${link}.${domain} skipped, it didn't resolve."
   fi
