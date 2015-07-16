@@ -4,7 +4,7 @@
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM vizzbuzz/base-alpine:0.8
+FROM vizzbuzz/base-alpine:0.9
 ```
 
 ## Introduction
