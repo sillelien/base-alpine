@@ -52,7 +52,7 @@ The base image contains a running syslog daemon, which is set to send all output
 
 ### DNS and the Alpine resolv.conf problem.
 
-The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.org/wiki/Functional_differences_from_glibc#Name_Resolver_.2F_DNS) not to support the `search` or `domain` options in resolv.conf. This means that systems that rely on that behaviour (include Tutum.co) cannot use Alpine Linux properly. This base image does some [magic](https://github.com/vizzbuzz/base-alpine/blob/master/rootfs/etc/services.d/dns-hack/run) for you to make sure that all linked containers resolv to their shortnames correctly. This magic works hand in hand with `dnsmasq` which is a tiny (uses about 17K of memory) DNS cache and forwarder. 
+The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.org/wiki/Functional_differences_from_glibc#Name_Resolver_.2F_DNS) not to support the `search` or `domain` options in resolv.conf. This means that systems that rely on that behaviour (include Tutum.co) cannot use Alpine Linux properly. This base image does some [magic](https://github.com/vizzbuzz/base-alpine/blob/master/rootfs/etc/services.d/dns-hack/run) for you to make sure that all linked containers resolve to their shortnames correctly. This magic works hand in hand with `dnsmasq` which is a tiny (uses about 17K of memory) DNS cache and forwarder. 
 
 You can add additional flags using the environment variable DNSMASQ_ARGS
 

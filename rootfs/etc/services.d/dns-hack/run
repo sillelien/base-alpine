@@ -1,15 +1,24 @@
 #!/usr/bin/with-contenv sh
+
+echo "Contents of dnsmasq-resolv.conf"
+echo "-------------------"
+
+cat /etc/dnsmasq-resolv.conf
+echo
+echo
 if [ ! -f /etc/dnsmasq-resolv.conf ]
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
 fi
 
+echo "Waiting for dnsmasq"
 while ! ps -ef | grep -v grep | grep dnsmasq-resolv.conf
 do
     sleep 1
 done
 
+echo "Starting DNS monitoring loop"
 while true
 do
     env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ')
@@ -19,19 +28,22 @@ do
       link=${env_var%_NAME}
       domain=$(cat /etc/dnsmasq-resolv.conf | grep search | cut -d' ' -f2)
       nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
-      ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2)
+      ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
       if [ -n "$ip" ]
       then
         echo "${ip} ${link}" >> /tmp/hosts
       else
-        logger "ip ${link}.${domain} skipped, it didn't resolve."
+        echo "ip ${link}.${domain} skipped, it didn't resolve." 1>&2
       fi
     done
 
      if ! diff /tmp/hosts /etc/hosts.links
      then
+        echo "Updating DNS values"
         cp -f /tmp/hosts /etc/hosts.links
         killall -HUP dnsmasq
+     else
+        echo "No change to DNS values"
      fi
 
     sleep 30
