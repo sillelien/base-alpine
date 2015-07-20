@@ -30,5 +30,5 @@ do
      else
         echo "No change to DNS values"
      fi
-
+     sleep 5
 done
