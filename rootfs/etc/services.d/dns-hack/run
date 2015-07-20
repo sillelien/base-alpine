@@ -21,7 +21,7 @@ done
 echo "Starting DNS monitoring loop"
 while true
 do
-    env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ' | tr '_' '.')
+    env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ' | tr '_' '-')
     echo "#Auto Generated - DO NOT CHANGE" > /tmp/hosts
     for env_var in $env_vars
     do
