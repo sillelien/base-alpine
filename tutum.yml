@@ -1,17 +1,14 @@
 main:
-  image: vizzbuzz/base-alpine
-  command: ash -c "while true; do ping -c 1 test1; ping -c 1 test2; done"
+  image: 'vizzbuzz/base-alpine:latest'
+  command: 'ash -c "while true; do ping -c 1 test1; ping -c 1 test2; ping -c 1 test2-1; sleep 20; done"'
   links:
     - test1
     - test2
-
 test1:
-  image: nginx
+  image: 'nginx:latest'
+  deployment_strategy: high_availability
   target_num_containers: 2
-  deployment_strategy: high_availability
-
 test2:
-  image: nginx
-  target_num_containers: 3
+  image: 'nginx:latest'
   deployment_strategy: high_availability
-
+  target_num_containers: 3

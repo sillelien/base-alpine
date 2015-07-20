@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /etc/dnsmasq-resolv.conf ]
+if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
@@ -21,6 +21,11 @@ done
 echo "Starting DNS monitoring loop"
 while true
 do
+    if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
+    then
+        cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
+        echo "nameserver 127.0.0.1" > /etc/resolv.conf
+    fi
     env_vars=$(env | grep ".*_NAME=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" > /tmp/hosts
     for env_var in $env_vars
