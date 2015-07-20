@@ -1,4 +1,10 @@
 #!/usr/bin/with-contenv sh
+exit 0
+
+
+
+
+
 echo "DNS hacks, first run."
 
 if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
