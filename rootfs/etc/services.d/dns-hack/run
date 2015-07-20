@@ -19,6 +19,7 @@ do
         cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
         echo "nameserver 127.0.0.1" > /etc/resolv.conf
     fi
+
     . /bin/dns_hack.sh
 
      if ! diff /tmp/hosts /etc/hosts.links
