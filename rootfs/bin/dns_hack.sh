@@ -13,14 +13,13 @@ do
   then
       ip=$( nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
   else
-       echo "ip ${link}.${domain} skipped, it didn't resolve." 1>&2
       ip=
   fi
   if [ -n "$ip" ]
   then
     echo "${ip} ${link}" >> /tmp/hosts
   else
-    echo "ip ${link}.${domain} skipped, it didn't resolve second time." 1>&2
+    echo "ip ${link}.${domain} skipped, it didn't resolve." 1>&2
   fi
 
 done
