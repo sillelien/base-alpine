@@ -28,14 +28,21 @@ do
       link=${env_var%_NAME}
       domain=$(cat /etc/dnsmasq-resolv.conf | grep search | cut -d' ' -f2)
       nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
-      ip=$(nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
-      if [ -n "$ip" ]
+      if nslookup "${link}.${domain}" ${nameserver}
       then
-        echo "${ip} ${link}" >> /tmp/hosts
+          ip=$( nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
+          if [ -n "$ip" ]
+          then
+            echo "${ip} ${link}" >> /tmp/hosts
+          else
+            echo "ip ${link}.${domain} skipped, it didn't resolve second time." 1>&2
+          fi
       else
-        echo "ip ${link}.${domain} skipped, it didn't resolve." 1>&2
+           echo "ip ${link}.${domain} skipped, it didn't resolve." 1>&2
       fi
-    done
+
+
+     done
 
      if ! diff /tmp/hosts /etc/hosts.links
      then

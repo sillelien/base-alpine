@@ -1,0 +1,13 @@
+main:
+  build: .
+  command: ash -c "while true; do ping -c 1 test1; ping -c 1 test2; done"
+  links:
+    - test1
+    - test2
+
+test1:
+  image: nginx
+
+test2:
+  image: nginx
+
