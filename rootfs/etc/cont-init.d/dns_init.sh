@@ -1,5 +1,4 @@
 #!/usr/bin/with-contenv ash
-set -x
 echo "DNS hacks, initial hosts generation."
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
@@ -28,4 +27,7 @@ done
 sort -u < /tmp/hosts > /etc/hosts
 
 echo "Initial DNS calculated"
+echo "-------------------"
 cat /etc/hosts
+echo
+echo
