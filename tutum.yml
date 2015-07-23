@@ -4,11 +4,16 @@ main:
   links:
     - test1
     - test2
+    - test3
 test1:
   image: 'nginx:latest'
   deployment_strategy: high_availability
   target_num_containers: 2
 test2:
+  image: 'nginx:latest'
+  deployment_strategy: high_availability
+  target_num_containers: 3
+test3:
   image: 'nginx:latest'
   deployment_strategy: high_availability
   target_num_containers: 3

@@ -21,11 +21,11 @@ do
     fi
 
     . /bin/dns_hack.sh
-
      if ! diff /tmp/hosts /etc/hosts.links
      then
         echo "Updating DNS values"
         cp -f /tmp/hosts /etc/hosts.links
+        cp  /etc/hosts.orig /etc/hosts
         killall -HUP dnsmasq
      else
         echo "No change to DNS values"
