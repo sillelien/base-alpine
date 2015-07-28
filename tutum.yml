@@ -1,5 +1,5 @@
 main:
-  image: 'vizzbuzz/base-alpine:latest'
+  image: 'sillelien/base-alpine:latest'
   command: 'ash -c "while true; do ping -c 1 test1; ping -c 1 test2; ping -c 1 test2-1; sleep 20; done"'
   links:
     - test1
