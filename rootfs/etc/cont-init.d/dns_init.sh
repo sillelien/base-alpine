@@ -14,14 +14,14 @@ cat /etc/dnsmasq-resolv.conf
 echo
 echo
 
-if env | grep "ENV_TUTUM_IP_ADDRESS"
+if env | grep "_ENV_TUTUM_IP_ADDRESS"
 then
     echo "We're running on Tutum"
-    env_vars=$(env | grep "ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
+    env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
     for env_var in $env_vars
     do
-      host=$(echo $env_var | awk -F"ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
+      host=$(echo $env_var | awk -F"_ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var" | cut -d/ -f1)
       echo "${ip} ${host}" >> /tmp/hosts
     done
