@@ -9,7 +9,7 @@ Base-alpine provides an image suitable for running Alpine Linux in Tutum/Kuberne
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:0.9.1
+FROM sillelien/base-alpine:0.9.2
 ```
 
 ## Introduction
