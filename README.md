@@ -1,6 +1,6 @@
 # base-alpine 
 
-** If you use this image please consider giving it a star on Github **
+**If you use this image please consider giving it a star on Github**
 
 ## Note
 Please make sure you use a tagged version of base-alpine, such as:
