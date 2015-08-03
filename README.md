@@ -156,5 +156,5 @@ You can search for packages by name or by file contents here: http://pkgs.alpine
 
 ##Credits
 
-Originally taken from https://github.com/just-containers/base-alpine credit to John Regan <john@jrjrtech.com>
+Originally taken from https://github.com/just-containers/base-alpine credit to John Regan <john@jrjrtech.com> which itself is taken from https://github.com/gliderlabs/docker-alpine credit to [Gliderlabs](http://gliderlabs.com/) for that.
 
