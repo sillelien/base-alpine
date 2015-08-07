@@ -1,5 +1,7 @@
 # base-alpine 
 
+[![Join the chat at https://gitter.im/sillelien/base-alpine](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sillelien/base-alpine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Base-alpine provides an image suitable for running Alpine Linux in Tutum/Kubernetes style hosted distributed environments. It comes with S6 process manager by default, if you don't use a process manager things can get a bit messy.
 
 
