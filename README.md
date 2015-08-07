@@ -5,6 +5,8 @@ Base-alpine provides an image suitable for running Alpine Linux in Tutum/Kuberne
 
 **If you use this image please consider giving it a star on Github**
 
+For support either raise an issue or contact us on Gitter.
+
 ## Note
 Please make sure you use a tagged version of base-alpine, such as:
 
