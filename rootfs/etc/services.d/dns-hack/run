@@ -11,7 +11,7 @@ done
 echo "Starting DNS monitoring loop"
 while true
 do
-    if  ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
+    if  ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" >/dev/null )
     then
         sleep 30
         continue
