@@ -3,7 +3,7 @@ machine:
     - docker
   environment:
 #    RELEASE: 0.9.4-${CIRCLE_BUILD_NUM}
-    RELEASE: 0.9.2
+    RELEASE: 0.9.1
 
 dependencies:
   cache_directories:
