@@ -1,6 +1,6 @@
 machine:
-  services:
-    - docker
+#  services:
+#    - docker
   environment:
 #    RELEASE: 0.9.4-${CIRCLE_BUILD_NUM}
     RELEASE: 0.9.3-${CIRCLE_BUILD_NUM}
