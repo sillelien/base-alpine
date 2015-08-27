@@ -1,11 +1,20 @@
+
 # base-alpine 
 
 Base-alpine provides an image suitable for running Alpine Linux in Tutum/Kubernetes style hosted distributed environments. It comes with S6 process manager by default, if you don't use a process manager things can get a bit messy.
 
 
-**If you use this image please consider giving it a star on Github**
+-------
 
-For support either raise an issue or contact us on Gitter.
+**If you use this project please consider giving us a star on [GitHub](http://github.com/sillelien/base-alpine). Also if you can spare 30 secs of your time please let us know your priorities here https://sillelien.wufoo.com/forms/zv51vc704q9ary/  - thanks, that really helps!**
+
+Please contact us through chat or through GitHub Issues.
+
+[![GitHub Issues](https://img.shields.io/github/issues/sillelien/base-alpine.svg)](https://github.com/sillelien/base-alpine/issues)
+
+[![Join the chat at https://gitter.im/sillelien/base-alpine](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sillelien/base-alpine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+-------
 
 ## Note
 Please make sure you use a tagged version of base-alpine, such as:
@@ -14,6 +23,7 @@ Please make sure you use a tagged version of base-alpine, such as:
 FROM sillelien/base-alpine:0.9.2
 ```
 
+[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
 ## Introduction
 
 This is a simple but powerful base image, based on Alpine Linux with [S6](http://skarnet.org/software/s6/) as a process supervisor and dnsmasq for DNS management, both of which have extremely small footprints adding virtually no runtime overhead and a minimal filesystem overhead.
@@ -160,3 +170,24 @@ You can search for packages by name or by file contents here: http://pkgs.alpine
 
 Originally taken from https://github.com/just-containers/base-alpine credit to John Regan <john@jrjrtech.com> which itself is taken from https://github.com/gliderlabs/docker-alpine credit to [Gliderlabs](http://gliderlabs.com/) for that.
 
+--------
+
+[![GitHub License](https://img.shields.io/github/license/sillelien/base-alpine.svg)](https://raw.githubusercontent.com/sillelien/base-alpine/master/LICENSE)
+
+#Referral Links
+
+This is an open source project, which means that we are giving our time to you for free. However like yourselves, we do have bills to pay. Please consider visiting some of these excellent services, they are not junk we can assure you, all services we would or do use ourselves.
+
+[Really Excellent Dedicated Servers from Limestone Networks](http://www.limestonenetworks.com/?utm_campaign=rwreferrer&utm_medium=affiliate&utm_source=RFR16798) - fantastic service, great price.
+
+[Low Cost and High Quality Cloud Hosting from Digital Ocean](https://www.digitalocean.com/?refcode=7b4639fc8194) - truly awesome service.
+
+[Excellent Single Page Website Creation and Hosting from Strikingly](http://strk.ly/?uc=kDaE2vgzc3F) - http://sillelien.com uses this.
+
+#Copyright and License
+
+(c) 2015 Sillelien all rights reserved. Please see [LICENSE](https://raw.githubusercontent.com/sillelien/base-alpine/master/LICENSE) for license details of this project. Please visit http://sillelien.com for help and commercial support or raise issues on [GitHub](https://github.com/sillelien/base-alpine/issues).
+
+<div width="100%" align="right">
+<img src='https://da8lb468m8h1w.cloudfront.net/v2/cpanel/8398500-121258714_5-s1-v1.png?palette=1' >
+</div>
