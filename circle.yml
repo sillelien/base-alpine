@@ -11,14 +11,13 @@ dependencies:
 
   override:
       - cd ~ && git clone https://github.com/sillelien/build-utils.git && chmod a+x ~/build-utils/*.sh
-#      - sudo -H pip install docker-compose
+      - sudo -H pip install docker-compose
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker build -t sillelien/base-alpine:${CIRCLE_BRANCH} .
 
 test:
   override:
-#    -  docker-compose up
-     - echo No tests at present
+    -  docker-compose up && [ -f ./docker-test/test.txt ]
 
 deployment:
   staging:
