@@ -11,7 +11,7 @@ dependencies:
 
   override:
       - cd ~ && git clone https://github.com/sillelien/build-utils.git && chmod a+x ~/build-utils/*.sh
-      - curl -L https://github.com/docker/compose/releases/download/1.4.0rc3/docker-compose-Linux-x86_64 >  /usr/local/bin/docker-compose
+      - sudo curl -L https://github.com/docker/compose/releases/download/1.4.0rc3/docker-compose-Linux-x86_64 >  /usr/local/bin/docker-compose
         chmod +x /usr/local/bin/docker-compose
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker build -t sillelien/base-alpine:${CIRCLE_BRANCH} .
