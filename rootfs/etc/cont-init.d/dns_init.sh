@@ -1,8 +1,12 @@
 #!/usr/bin/with-contenv ash
 
-export INIT_SCRIPT_PID=$$
 
-( sleep 30 ; [ -f /var/run/dns.init ] || ( echo "Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
+if [ -z "$DNS_INIT_TIMEOUT" ]
+then
+    DNS_INIT_TIMEOUT=45
+fi
+
+( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
 
 echo "DNS hacks, initial hosts generation."
 cp /etc/hosts /etc/hosts.orig
@@ -29,7 +33,7 @@ then
       host=$(echo $env_var | awk -F"_ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var" | cut -d/ -f1)
       echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 ${ip} -q > /dev/null
+      while ! ping -c 1 -q ${ip}
       do
         echo "Waiting for IP address ${ip} to be reachable"
         sleep 1
@@ -44,7 +48,7 @@ else
       host=$(echo $env_var | awk -F"_PORT_" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var")
       echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 ${ip} -q > /dev/null
+      while ! ping -c 1 -q ${ip}
       do
         echo "Waiting for IP address ${ip} to be reachable"
         sleep 1
