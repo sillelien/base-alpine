@@ -11,7 +11,7 @@ dependencies:
 
   override:
 #      - mkdir -p ~/bin
-      - sudo service docker stop
+      - sudo apt-get remove --auto-remove docker
       - cd ~ && git clone https://github.com/sillelien/build-utils.git && chmod a+x ~/build-utils/*.sh
       - sudo -H pip install -U docker-compose==1.3.3
       - curl -sSL https://get.docker.com/ | sh
