@@ -14,7 +14,7 @@ dependencies:
 
   override:
       - cd ~ && git clone https://github.com/sillelien/build-utils.git && chmod a+x ~/build-utils/*.sh
-      - sudo -H pip install -U docker-compose==1.3.3
+      - sudo -H pip install -U docker-compose==1.4.0
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker build -t sillelien/base-alpine:${CIRCLE_BRANCH} .
 
