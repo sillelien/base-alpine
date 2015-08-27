@@ -9,6 +9,10 @@ main:
 
 test1:
   image: nginx
+  ports:
+    - 80
 
 test2:
   image: nginx
+  ports:
+    - 80
