@@ -1,6 +1,6 @@
 main:
   build: .
-  command: ash -c "ping -c 1 test1; ping -c 1 test2; sleep 10"
+  command: ash -c "ping -c 1 test1; ping -c 1 test2; sleep 60"
   links:
     - test1
     - test2
