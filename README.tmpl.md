@@ -10,7 +10,7 @@ ${BLURB}
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:0.9.2
+FROM sillelien/base-alpine:${RELEASE}
 ```
 
 ${TUTUM}
