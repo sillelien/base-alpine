@@ -44,7 +44,7 @@ else
       host=$(echo $env_var | awk -F"_PORT_" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var")
       echo "${ip} ${host}" >> /tmp/hosts
-      while true
+      while ! ping -c 1 ${ip} -q > /dev/null
       do
         echo "Waiting for IP address ${ip} to be reachable"
         sleep 1
