@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv ash
+set -x
 echo "DNS hacks, initial hosts generation."
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
@@ -24,6 +25,11 @@ then
       host=$(echo $env_var | awk -F"_ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var" | cut -d/ -f1)
       echo "${ip} ${host}" >> /tmp/hosts
+      while ! ping -c 1 ${ip} -q > /dev/null
+      do
+        echo "Waiting for IP address ${ip} to be reachable"
+        sleep 1
+      done
     done
 else
     echo "We're not running on Tutum"
@@ -34,6 +40,11 @@ else
       host=$(echo $env_var | awk -F"_PORT_" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var")
       echo "${ip} ${host}" >> /tmp/hosts
+      while ! ping -c 1 ${ip} -q > /dev/null
+      do
+        echo "Waiting for IP address ${ip} to be reachable"
+        sleep 1
+      done
     done
 fi
 

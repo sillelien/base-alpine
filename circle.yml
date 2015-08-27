@@ -1,0 +1,44 @@
+machine:
+  services:
+    - docker
+  environment:
+    RELEASE: 0.1.${CIRCLE_BUILD_NUM}
+    MAVEN_OPTS: "-Xmx1g -DbuildNumber=${CIRCLE_BUILD_NUM} "
+    JAVA_HOME: /usr/lib/jvm/jdk1.8.0
+  java:
+    version: oraclejdk8
+
+dependencies:
+  cache_directories:
+    - "~/docker"
+
+  override:
+      - cd ~ && git clone https://github.com/sillelien/build-utils.git && chmod a+x ~/build-utils/*.sh
+      - sudo -H pip install docker-compose
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - ./build.sh
+      - docker build -t sillelien/base-alpine:${CIRCLE_BRANCH} .
+
+test:
+  override:
+    -  docker-compose up
+
+deployment:
+  staging:
+      branch: staging
+      commands:
+         - ~/build-utils/promote_from_staging.sh
+
+  production:
+      branch: master
+      commands:
+          - docker tag sillelien/base-alpine:${CIRCLE_BRANCH} sillelien/scheduler
+          - docker push sillelien/base-alpine
+          - docker tag sillelien/base-alpine sillelien/scheduler:$(cat .release)
+          - docker push sillelien/base-alpine:$(cat .release)
+
+
+  development:
+      branch: dev
+      commands:
+          - docker push sillelien/base-alpine:${CIRCLE_BRANCH}
