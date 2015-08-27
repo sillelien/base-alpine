@@ -1,6 +1,6 @@
 main:
   build: .
-  command: ash -c "ping -c 1 test1; ping -c 1 test2; touch /docker-test/test.txt ; sleep 60"
+  command: ash -c "ping -c 1 test1 && ping -c 1 test2 && touch /docker-test/test.txt ; sleep 60"
   volumes:
     - ./docker-test:/docker-test:rw
   links:
