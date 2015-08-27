@@ -17,7 +17,7 @@ dependencies:
 test:
   override:
 #    -  docker-compose up
-     - No tests at present
+     - echo No tests at present
 
 deployment:
   staging:
