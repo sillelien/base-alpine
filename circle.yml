@@ -2,11 +2,7 @@ machine:
   services:
     - docker
   environment:
-    RELEASE: 0.1.${CIRCLE_BUILD_NUM}
-    MAVEN_OPTS: "-Xmx1g -DbuildNumber=${CIRCLE_BUILD_NUM} "
-    JAVA_HOME: /usr/lib/jvm/jdk1.8.0
-  java:
-    version: oraclejdk8
+    RELEASE: 0.9.3-${CIRCLE_BUILD_NUM}
 
 dependencies:
   cache_directories:
@@ -20,7 +16,8 @@ dependencies:
 
 test:
   override:
-    -  docker-compose up
+#    -  docker-compose up
+     - No tests at present
 
 deployment:
   staging:
