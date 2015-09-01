@@ -20,7 +20,7 @@ Please contact us through chat or through GitHub Issues.
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:0.9.4.3
+FROM sillelien/base-alpine:latest-92
 ```
 
 [![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
