@@ -34,7 +34,12 @@ deployment:
           - docker tag sillelien/base-alpine sillelien/base-alpine:$(cat .release)
           - docker push sillelien/base-alpine:$(cat .release)
 
-
+  release:
+    branch: /0.*/
+    commands:
+         - ~/build-utils/promote_from_staging.sh
+         - docker push sillelien/base-alpine:${CIRCLE_BRANCH} 
+      
   development:
       branch: dev
       commands:
