@@ -4,9 +4,6 @@ machine:
       sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.1-circleci'
       sudo chmod 0755 /usr/bin/docker
       sudo service docker start
-  environment:
-#    RELEASE: 0.9.4-${CIRCLE_BUILD_NUM}
-    RELEASE: 0.9.3-${CIRCLE_BUILD_NUM}
 
 dependencies:
   cache_directories:
