@@ -73,6 +73,10 @@ The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.o
 
 You can add additional flags using the environment variable DNSMASQ_ARGS
 
+### Wait for linked servers
+
+The image will pause startup while it waits for the IP addresses of all linked services to become valid - this helps to deal with problems from overlay networks such as Weave. However all DNS resolution and pings will timeout after `DNS_INIT_TIMEOUT` (default 45) seconds.
+
 ## Good Practises
 
 ### Don't Run as Root
