@@ -21,6 +21,8 @@ do
     fi
 
     . /bin/dns_hack.sh
+    additional_hosts.sh
+
      if ! diff /tmp/hosts /etc/hosts.links
      then
         echo "Updating DNS values"

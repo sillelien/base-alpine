@@ -28,10 +28,7 @@ then
     echo "We're running on Tutum"
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
-    if [ -n "$BA_ADDITIONAL_HOSTS" ]
-    then
-        env_vars="$env_vars $BA_ADDITIONAL_HOSTS"
-    fi
+
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
     for env_var in $env_vars
     do
@@ -67,6 +64,8 @@ else
       done
     done
 fi
+
+additional_hosts.sh
 
 sort -u < /tmp/hosts > /etc/hosts
 
