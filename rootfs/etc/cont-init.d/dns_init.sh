@@ -23,10 +23,9 @@ cat /etc/dnsmasq-resolv.conf
 echo
 echo
 
-if env | grep "_ENV_TUTUM_IP_ADDRESS"
+if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
-
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
