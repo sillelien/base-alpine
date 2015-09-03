@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/with-contenv ash
 
 touch /etc/dnsmasq-resolv.conf
 
@@ -21,7 +21,7 @@ do
     fi
 
     . /bin/dns_hack.sh
-    additional_hosts.sh
+    . /bin/additional_hosts.sh
 
      if ! diff /tmp/hosts /etc/hosts.links
      then

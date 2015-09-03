@@ -1,4 +1,3 @@
-#!/usr/bin/env ash
 
 if [ -n "$BA_ADDITIONAL_HOSTS" ] && [ -n "$TUTUM_SERVICE_FQDN" ]
 then
@@ -10,9 +9,9 @@ then
     do
           for suffix in $service1 $service2 $cont1 $cont2
           do
-              if ping -t 1 -c 1 "${host}.${suffix}" && nslookup "${host}.${suffix}"
+              if ping -t 1 -c 1 "${host}.${suffix}" && nslookup "${host}.${suffix}" 127.0.0.1
               then
-                ip=$( nslookup "${host}.${suffix}" | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
+                ip=$( nslookup "${host}.${suffix}" 127.0.0.1 | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
                 echo "${ip} ${host}.${suffix}" >> /tmp/hosts
                 echo "Added additional host ${host}.${suffix}=${ip}"
               fi

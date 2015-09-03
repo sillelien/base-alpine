@@ -70,7 +70,7 @@ dnsmasq --expand-hosts --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/
 
 sleep 2
 
-additional_hosts.sh
+. /bin/additional_hosts.sh
 
 killall dnsmasq
 
