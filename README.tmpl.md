@@ -24,6 +24,11 @@ Running multiple 'applications' in a single container is of course not The Docke
 
 Also this image supports syslog logging, all syslog messages will be sent to stderr - no more losing syslog logging!
 
+
+## Read this first (Gotchas)
+
+* Use Fully Qualified Domain Names (FQDN) always, Alpine Linux does not support the 'search' value in resolv.conf. So you must use myserver.local instead of just myserver.
+
 ## Usage Notes
 
 ### Shell
