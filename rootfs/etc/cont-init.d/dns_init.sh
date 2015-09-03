@@ -26,6 +26,8 @@ echo
 if env | grep "_ENV_TUTUM_IP_ADDRESS"
 then
     echo "We're running on Tutum"
+
+
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
     for env_var in $env_vars
@@ -39,6 +41,13 @@ then
         sleep 1
       done
     done
+
+     while ! ping -c 1 -q ${TUTUM_SERVICE_FQDN}
+      do
+        echo "Waiting for service FQDN address ${TUTUM_SERVICE_FQDN} to be reachable"
+        sleep 1
+      done
+
 else
     echo "We're not running on Tutum"
     env_vars=$(env | grep ".*_PORT_.*_TCP_ADDR=" | cut -d= -f1 | tr '\n' ' ' )
