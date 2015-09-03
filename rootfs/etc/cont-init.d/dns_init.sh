@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv ash
 
+set -x
+
 touch /etc/hosts.links
 
 if [ -z "$DNS_INIT_TIMEOUT" ]
