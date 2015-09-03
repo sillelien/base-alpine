@@ -10,7 +10,7 @@ then
     do
           for suffix in $service1 $service2 $cont1 $cont2
           do
-              if ping -t 1 -c 1 "${host}.${suffix}"
+              if nslookup -timeout=2 "${host}.${suffix}" 8.8.8.8q
               then
                 ip=$( nslookup "${host}.${suffix}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
                 echo "${ip} ${host}.${suffix}" >> /tmp/hosts
