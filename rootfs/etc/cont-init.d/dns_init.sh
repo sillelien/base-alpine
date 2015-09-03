@@ -3,7 +3,7 @@
 
 if [ -z "$DNS_INIT_TIMEOUT" ]
 then
-    DNS_INIT_TIMEOUT=45
+    DNS_INIT_TIMEOUT=60
 fi
 
 ( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
