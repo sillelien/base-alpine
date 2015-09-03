@@ -68,7 +68,7 @@ else
     done
 fi
 
-dnsmasq --expand-hosts --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links
+dnsmasq --expand-hosts --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links --no-daemon &
 
 sleep 2
 
