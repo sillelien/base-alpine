@@ -1,5 +1,6 @@
 #!/usr/bin/with-contenv ash
 
+touch /etc/hosts.links
 
 if [ -z "$DNS_INIT_TIMEOUT" ]
 then
@@ -66,6 +67,8 @@ else
 fi
 
 dnsmasq --expand-hosts --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links
+
+sleep 2
 
 additional_hosts.sh
 
