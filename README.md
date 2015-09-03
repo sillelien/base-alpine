@@ -21,7 +21,7 @@ Please contact us through chat or through GitHub Issues.
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:snapshot-96
+FROM sillelien/base-alpine:snapshot-98
 ```
 
 [![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
@@ -82,27 +82,27 @@ You can add additional flags using the environment variable DNSMASQ_ARGS
 
 The entire boot sequence related to DNS and related fixes is timelimited by the env var `DNS_INIT_TIMEOUT` which defaults to 45 seconds. If the timeout is exceeded the entire container is shutdown.
 
-#### Make sure Dnsmasq is the current nameserver
+#### Makes sure Dnsmasq is the current nameserver
 
-If it isn't copy the current `/etc/resolv.conf` into `/etc/dnsmasq-resolv.conf`.
+If it isn't it copies the current `/etc/resolv.conf` into `/etc/dnsmasq-resolv.conf`.
 
-#### Check whether the container is on Tutum
+#### Checks whether the container is on Tutum
 
 If the container is running on Tutum all linked containers will be added to the hosts file, not just ones with exposed ports.
 
-#### Add linked containers to /etc/hosts
+#### Adds linked containers to /etc/hosts
 
 If on Tutum this is all containers, otherwise only those who expose ports.
 
-#### Ping each host
+#### Pings each host
 
 The script will pause while it pings each linked container. The script won't finish (and therefore the container won't start) until all can be reached.
 
-#### Start Dnsmasq
+#### Starts Dnsmasq
 
 Dnsmasq is the local caching nameserver that is used to resolve all DNS queries from within the container.
 
-#### Start monitoring loop 
+#### Starts monitoring loop 
 
 The monitoring loop checks for changes to `/etc/resolv.conf` and when found updates the DNS information.
 
