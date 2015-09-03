@@ -10,10 +10,11 @@ then
     do
           for suffix in $service1 $service2 $cont1 $cont2
           do
-              if nslookup "${host}.${suffix}" ${nameserver}
+              if nslookup "${host}.${suffix}" ${nameserver} &> /dev/null
               then
                 ip=$( nslookup "${host}.${suffix}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
                 echo "${ip} ${host}.${suffix}" >> /tmp/hosts
+                echo "Added additional host ${host}.${suffix}=${ip}"
               fi
           done
     done
