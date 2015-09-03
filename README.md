@@ -20,7 +20,7 @@ Please contact us through chat or through GitHub Issues.
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:latest-92
+FROM sillelien/base-alpine:snapshot-94
 ```
 
 [![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
@@ -33,6 +33,11 @@ Why a supervisor process? Firstly because it solves the [PID 1 Zombie Problem](h
 Running multiple 'applications' in a single container is of course not The Docker Way (tm) - however running multiple *processes* is often required. [S6](http://skarnet.org/software/s6/) provides a very simple, low resource and elegant processor supervisor which fits in well with the Alpine Linux minimalism.
 
 Also this image supports syslog logging, all syslog messages will be sent to stderr - no more losing syslog logging!
+
+
+## Read this first (Gotchas)
+
+* Use Fully Qualified Domain Names (FQDN) always, Alpine Linux does not support the 'search' value in resolv.conf. So you must use myserver.local instead of just myserver.
 
 ## Usage Notes
 
