@@ -3,6 +3,7 @@
 
 Base-alpine provides an image suitable for running Alpine Linux in Tutum/Kubernetes style hosted distributed environments. It comes with S6 process manager by default, if you don't use a process manager things can get a bit messy.
 
+[![](https://badge.imagelayers.io/vizzbuzz/base-alpine.svg)](https://imagelayers.io/?images=vizzbuzz/base-alpine:latest 'Get your own badge on imagelayers.io')
 
 -------
 
@@ -20,7 +21,7 @@ Please contact us through chat or through GitHub Issues.
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:staging-77
+FROM sillelien/base-alpine:0.9.5
 ```
 
 [![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
@@ -34,6 +35,11 @@ Running multiple 'applications' in a single container is of course not The Docke
 
 Also this image supports syslog logging, all syslog messages will be sent to stderr - no more losing syslog logging!
 
+
+## Read this first (Gotchas)
+
+* Use Fully Qualified Domain Names (FQDN) always, Alpine Linux does not support the 'search' value in resolv.conf. So you must use myserver.local instead of just myserver.
+
 ## Usage Notes
 
 ### Shell
@@ -42,7 +48,7 @@ Alpine Linux uses [BusyBox](http://www.busybox.net/) to provide a lot of the cor
  
 You can of course install bash - and why not?. Doing so will add a few more meg to your *tiny* image.
 
-[![](https://badge.imagelayers.io/vizzbuzz/base-alpine.svg)](https://imagelayers.io/?images=vizzbuzz/base-alpine:latest 'Get your own badge on imagelayers.io')
+
 
 ### S6
 
@@ -62,7 +68,6 @@ Note: If you want to get access to environment variables passed in to your conta
 ```shell
 #!/usr/bin/with-contenv sh
 ```
-
 ### Syslog
 
 The base image contains a running syslog daemon, which is set to send all output to `stderr` - this ensures you don't lose any messages sent by Linux applications.
@@ -72,6 +77,34 @@ The base image contains a running syslog daemon, which is set to send all output
 The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.org/wiki/Functional_differences_from_glibc#Name_Resolver_.2F_DNS) not to support the `search` or `domain` options in resolv.conf. This means that systems that rely on that behaviour (include Tutum.co and Kubernetes) cannot use Alpine Linux properly. This base image does some [magic](https://github.com/vizzbuzz/base-alpine/blob/master/rootfs/etc/services.d/dns-hack/run) for you to make sure that all linked containers resolve to their shortnames correctly. This magic works hand in hand with `dnsmasq` which is a tiny (uses about 17K of memory) DNS cache and forwarder. 
 
 You can add additional flags using the environment variable DNSMASQ_ARGS
+
+### Understanding the DNS Startup/Boot Sequence
+
+The entire boot sequence related to DNS and related fixes is timelimited by the env var `DNS_INIT_TIMEOUT` which defaults to 45 seconds. If the timeout is exceeded the entire container is shutdown.
+
+#### Makes sure Dnsmasq is the current nameserver
+
+If it isn't it copies the current `/etc/resolv.conf` into `/etc/dnsmasq-resolv.conf`.
+
+#### Checks whether the container is on Tutum
+
+If the container is running on Tutum all linked containers will be added to the hosts file, not just ones with exposed ports.
+
+#### Adds linked containers to /etc/hosts
+
+If on Tutum this is all containers, otherwise only those who expose ports.
+
+#### Pings each host
+
+The script will pause while it pings each linked container. The script won't finish (and therefore the container won't start) until all can be reached.
+
+#### Starts Dnsmasq
+
+Dnsmasq is the local caching nameserver that is used to resolve all DNS queries from within the container.
+
+#### Starts monitoring loop 
+
+The monitoring loop checks for changes to `/etc/resolv.conf` and when found updates the DNS information.
 
 ## Good Practises
 
