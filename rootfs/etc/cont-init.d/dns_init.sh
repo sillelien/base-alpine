@@ -65,7 +65,11 @@ else
     done
 fi
 
+dnsmasq --expand-hosts --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links
+
 additional_hosts.sh
+
+killall dnsmasq
 
 sort -u < /tmp/hosts > /etc/hosts
 
