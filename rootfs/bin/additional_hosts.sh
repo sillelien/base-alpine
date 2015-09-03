@@ -1,6 +1,6 @@
 #!/usr/bin/env ash
 nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
-if [ -n "$BA_ADDITIONAL_HOSTS" ]
+if [ -n "$BA_ADDITIONAL_HOSTS" ] && [ -n "$TUTUM_SERVICE_FQDN" ]
 then
     service1=$(echo $TUTUM_SERVICE_FQDN | cut -d'.' -f2-)
     service2=$(echo $TUTUM_SERVICE_FQDN | cut -d'.' -f3-)
