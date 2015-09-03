@@ -24,8 +24,8 @@ deployment:
   staging:
       branch: staging
       commands:
-         - ~/build-utils/promote_from_staging.sh
-          - docker push sillelien/base-alpine:${CIRCLE_BRANCH}         
+          - docker build -t sillelien/base-alpine .
+          - docker push sillelien/base-alpine        
 
   production:
       branch: master
