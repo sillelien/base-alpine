@@ -15,6 +15,7 @@ if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
+    echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 fi
 
 echo "Contents of dnsmasq-resolv.conf"
@@ -30,6 +31,8 @@ then
     if [ -n "${TUTUM_AUTH}" ]
     then
         curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/
+        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services
+
     fi
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
