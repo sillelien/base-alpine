@@ -22,3 +22,6 @@ then
           done
     done
 fi
+
+
+curl ${TUTUM_REST_HOST}/api/v1/service/
