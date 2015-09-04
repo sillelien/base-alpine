@@ -24,7 +24,7 @@ cat /etc/dnsmasq-resolv.conf
 echo
 echo
 
-function parseServiceLinks {
+parseServiceLinks() {
     while read ip service_link
     do
         curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}${service_link}
