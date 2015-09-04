@@ -9,7 +9,7 @@ do
   if ping -c 1 "${link}.${domain}" &> /dev/null
   then
       ip=$(ping -c 1 "${link}.${domain}"| head -1 | cut -d'(' -f2 |  cut -d')' -f1)
-  elif nslookup "${link}.${domain}" ${nameserver}
+  elif nslookup "${link}.${domain}" ${nameserver}  &> /dev/null
   then
       ip=$( nslookup "${link}.${domain}" ${nameserver}  | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
   else
