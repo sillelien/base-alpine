@@ -24,6 +24,15 @@ cat /etc/dnsmasq-resolv.conf
 echo
 echo
 
+function parseServiceLinks() {
+    while read ip service_link
+    do
+        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}${service_link}
+        echo
+        echo
+    done
+}
+
 if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
@@ -40,9 +49,10 @@ then
 #        done
         curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/container/ > /tmp/containers.raw
         cat /tmp/containers.raw | jq -r '.objects  | map ( "\(.private_ip) \(.name) \(.public_dns)" ) | .[]' | tr -d '"' > /tmp/containers
+        cat /tmp/containers.raw | jq -r '.objects  | map ( "\(.private_ip) \(.service)" ) | .[]' | tr -d '"' | parseServiceLinks
 #        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services.raw
-        cat /tmp/containers
         cat /tmp/containers >> /tmp/hosts
+
     fi
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
