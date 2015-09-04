@@ -14,7 +14,6 @@ do
     if  ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" >/dev/null )
     then
         sleep 30
-        continue
     else
         cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
         echo "nameserver 127.0.0.1" > /etc/resolv.conf
