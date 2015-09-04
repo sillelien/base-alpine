@@ -29,10 +29,14 @@ echo
 
 if [ -n "$TUTUM_CONTAINER_FQDN" ]
 then
-    echo "DNS STEP 2 : Requesting all containers and services from Tutum"
-
-    . /bin/get_hosts_from_tutum.sh
-
+    if [ -n "$TUTUM_API_CALLS_FOR_DNS" ]
+    then
+        echo "DNS STEP 2 : Requesting all containers and services from Tutum"
+        . /bin/get_hosts_from_tutum.sh
+    else
+        echo "DNS STEP 2 : Request all containers and services from Tutum (Skipped)"
+        echo "Skipped - set the env var TUTUM_API_CALLS_FOR_DNS and add the role 'global'"
+    fi
     echo "DNS STEP 3 : Adding the linked services from Tutum"
 
     . /bin/tutum_dns_hack.sh
