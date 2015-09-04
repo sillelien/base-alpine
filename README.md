@@ -3,7 +3,7 @@
 
 Base-alpine provides an image suitable for running Alpine Linux in Tutum/Kubernetes style hosted distributed environments. It comes with S6 process manager by default, if you don't use a process manager things can get a bit messy.
 
-[![](https://badge.imagelayers.io/vizzbuzz/base-alpine.svg)](https://imagelayers.io/?images=vizzbuzz/base-alpine:latest 'Get your own badge on imagelayers.io')
+[![](https://badge.imagelayers.io/sillelien/base-alpine.svg)](https://imagelayers.io/?images=sillelien/base-alpine:latest 'Get your own badge on imagelayers.io')
 
 -------
 
@@ -21,7 +21,7 @@ Please contact us through chat or through GitHub Issues.
 Please make sure you use a tagged version of base-alpine, such as:
 
 ```Dockerfile
-FROM sillelien/base-alpine:0.9.5.1
+FROM sillelien/base-alpine:0.9.6.3
 ```
 
 [![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
@@ -74,7 +74,7 @@ The base image contains a running syslog daemon, which is set to send all output
 
 ### DNS and the Alpine resolv.conf problem.
 
-The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.org/wiki/Functional_differences_from_glibc#Name_Resolver_.2F_DNS) not to support the `search` or `domain` options in resolv.conf. This means that systems that rely on that behaviour (include Tutum.co and Kubernetes) cannot use Alpine Linux properly. This base image does some [magic](https://github.com/vizzbuzz/base-alpine/blob/master/rootfs/etc/services.d/dns-hack/run) for you to make sure that all linked containers resolve to their shortnames correctly. This magic works hand in hand with `dnsmasq` which is a tiny (uses about 17K of memory) DNS cache and forwarder. 
+The authors of musl-libc decided for their [own reasons](http://wiki.musl-libc.org/wiki/Functional_differences_from_glibc#Name_Resolver_.2F_DNS) not to support the `search` or `domain` options in resolv.conf. This means that systems that rely on that behaviour (include Tutum.co and Kubernetes) cannot use Alpine Linux properly. This base image does some [magic](https://github.com/sillelien/base-alpine/blob/master/rootfs/etc/services.d/dns-hack/run) for you to make sure that all linked containers resolve to their shortnames correctly. This magic works hand in hand with `dnsmasq` which is a tiny (uses about 17K of memory) DNS cache and forwarder. 
 
 You can add additional flags using the environment variable DNSMASQ_ARGS
 
@@ -196,7 +196,7 @@ You can search for packages by name or by file contents here: http://pkgs.alpine
  
 ### Java
  
- Use our `vizzbuzz/base-java` image which adds Java to this image.
+ Use our `sillelien/base-java` image which adds Java to this image.
 
 
 ##Credits
