@@ -30,9 +30,17 @@ then
 
     if [ -n "${TUTUM_AUTH}" ]
     then
-        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/
-        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services
-
+#        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ | jq -r '.objects | map ( "\(.name) \(.public_dns)" ) | .[]' | tr -d '\n' | tr -d '"' > /tmp services
+#        while read service fqdn< /tmp/services
+#        do
+#            ip=$( nslookup $fqdn | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
+#            echo "${ip} ${host}" >> /tmp/hosts
+#            echo "Added additional host ${host}.${suffix}=${ip}"
+#            break
+#        done
+        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/container/ > /tmp/containers.raw
+        cat /tmp/containers.raw
+#        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services.raw
     fi
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
