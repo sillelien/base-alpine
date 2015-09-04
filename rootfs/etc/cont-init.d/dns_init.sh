@@ -29,39 +29,12 @@ if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
 
-   . /bin/get_hosts_from_tutum.sh
+    . /bin/get_hosts_from_tutum.sh
 
-    env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
-    echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
-    for env_var in $env_vars
-    do
-      host=$(echo $env_var | awk -F"_ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
-      ip=$(eval "echo \$$env_var" | cut -d/ -f1)
-      echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 -q ${ip} &> /dev/null
-      do
-        echo "Waiting for IP address ${ip} to be reachable"
-        sleep 1
-      done
-    done
-
+    . /bin/tutum_dns_hack.sh
 else
 
-    echo "We're not running on Tutum"
-    env_vars=$(env | grep ".*_PORT_.*_TCP_ADDR=" | cut -d= -f1 | tr '\n' ' ' )
-    echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
-    for env_var in $env_vars
-    do
-      host=$(echo $env_var | awk -F"_PORT_" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
-      ip=$(eval "echo \$$env_var")
-      echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 -q ${ip} &> /dev/null
-      do
-        echo "Waiting for IP address ${ip} to be reachable"
-        sleep 1
-      done
-    done
-
+    . /bin/non_tutum_dns_hack.sh
 fi
 
 sort -u < /tmp/hosts > /etc/hosts

@@ -20,10 +20,19 @@ do
     fi
 
     cp -f /etc/hosts.orig /tmp/hosts
-    . /bin/dns_hack.sh
-    . /bin/additional_hosts.sh
-    . /bin/get_hosts_from_tutum.sh
-    cp -f /etc/hosts /tmp/hosts.orig
+    if env | grep "TUTUM_CONTAINER_FQDN"
+    then
+        echo "We're running on Tutum"
+
+        . /bin/get_hosts_from_tutum.sh
+
+        . /bin/tutum_dns_hack.sh
+    else
+
+        . /bin/non_tutum_dns_hack.sh
+    fi
+
+     cp -f /etc/hosts /tmp/hosts.orig
 
      sort -u < /tmp/hosts > /etc/hosts
 
