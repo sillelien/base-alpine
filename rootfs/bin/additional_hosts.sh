@@ -1,8 +1,8 @@
 
 if [ -n "$BA_ADDITIONAL_HOSTS" ] && [ -n "$TUTUM_SERVICE_FQDN" ]
 then
-    nameserver=$(cat /etc/dnsmasq-resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
-    search=$(cat /etc/dnsmasq-resolv.conf | grep search | head -1 | cut -d' ' -f2)
+    nameserver=$(cat /etc/resolv.conf | grep nameserver | head -1 | cut -d' ' -f2)
+    search=$(cat /etc/resolv.conf | grep search | head -1 | cut -d' ' -f2)
     service1=$(echo $TUTUM_SERVICE_FQDN | cut -d'.' -f2-)
     service2=$(echo $TUTUM_SERVICE_FQDN | cut -d'.' -f3-)
     cont1=$(echo $TUTUM_CONTAINER_FQDN | cut -d'.' -f2-)

@@ -12,17 +12,17 @@ fi
 echo "DNS hacks, initial hosts generation."
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
-if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
-then
-    cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
-    echo "nameserver 127.0.0.1" > /etc/resolv.conf
-fi
+#if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
+#then
+#    cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
+#    echo "nameserver 127.0.0.1" > /etc/resolv.conf
+#fi
 
-echo "Contents of dnsmasq-resolv.conf"
-echo "-------------------"
-cat /etc/dnsmasq-resolv.conf
-echo
-echo
+#echo "Contents of dnsmasq-resolv.conf"
+#echo "-------------------"
+#cat /etc/dnsmasq-resolv.conf
+#echo
+#echo
 
 if env | grep "TUTUM_CONTAINER_FQDN"
 then
