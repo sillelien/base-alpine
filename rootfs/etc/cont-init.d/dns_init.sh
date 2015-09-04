@@ -6,9 +6,9 @@ then
     DNS_INIT_TIMEOUT=45
 fi
 
-( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
+( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "DNS : Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
 
-echo "DNS hacks, initial hosts generation."
+echo "DNS : Initial Setup"
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
 
@@ -40,7 +40,7 @@ then
     echo "DNS STEP 3 : Adding the linked services from Tutum"
 
     . /bin/tutum_dns_hack.sh
-    
+
 else
 
     echo "DNS STEP 2 : Adding the linked services"
