@@ -29,7 +29,7 @@ echo
 
 if [ -n "$TUTUM_CONTAINER_FQDN" ]
 then
-    if [ -n "$TUTUM_API_CALLS_FOR_DNS" ]
+    if [ -n "$TUTUM_API_CALLS_FOR_DNS" ] && [ -n "${TUTUM_AUTH}" ]
     then
         echo "DNS STEP 2 : Requesting all containers and services from Tutum"
         . /bin/get_hosts_from_tutum.sh
@@ -40,7 +40,9 @@ then
     echo "DNS STEP 3 : Adding the linked services from Tutum"
 
     . /bin/tutum_dns_hack.sh
+    
 else
+
     echo "DNS STEP 2 : Adding the linked services"
 
     . /bin/non_tutum_dns_hack.sh
