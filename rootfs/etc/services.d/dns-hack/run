@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv ash
-set -x
+
 touch /etc/dnsmasq-resolv.conf
 
 echo "Waiting for dnsmasq"
