@@ -24,7 +24,7 @@ cp /etc/hosts /tmp/hosts
 #echo
 #echo
 
-if env | grep "TUTUM_CONTAINER_FQDN"
+if [ -n  "$TUTUM_CONTAINER_FQDN" ]
 then
     echo "We're running on Tutum"
 
