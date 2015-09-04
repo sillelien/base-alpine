@@ -39,8 +39,10 @@ then
 #            break
 #        done
         curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/container/ > /tmp/containers.raw
-        cat /tmp/containers.raw | jq '.'
+        cat /tmp/containers.raw | jq '.objects  | map ( "\(.private_ip) \(.name) \(.public_dns)" ) | .[]' | tr -d '\n' | tr -d '"' > /tmp/containers
 #        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services.raw
+        cat /tmp/containers
+        cat /tmp/containers >> /tmp/hosts
     fi
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
