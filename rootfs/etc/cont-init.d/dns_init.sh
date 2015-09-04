@@ -33,6 +33,7 @@ then
 
     . /bin/tutum_dns_hack.sh
 else
+    echo "We're not running on Tutum"
 
     . /bin/non_tutum_dns_hack.sh
 fi
