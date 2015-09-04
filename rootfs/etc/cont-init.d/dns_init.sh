@@ -11,6 +11,8 @@ fi
 echo "DNS hacks, initial hosts generation."
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
+
+echo "DNS STEP 1 : Creating the dnsmasq-resolv.conf"
 if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
@@ -28,23 +30,26 @@ echo
 if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
+    echo "DNS STEP 2 : Requesting all containers and services from Tutum"
 
     . /bin/get_hosts_from_tutum.sh
 
+    echo "DNS STEP 3 : Adding the linked services from Tutum"
     . /bin/tutum_dns_hack.sh
 else
-    echo "We're not running on Tutum"
+    echo "DNS STEP 2 : Adding the linked services"
 
     . /bin/non_tutum_dns_hack.sh
 fi
 
 sort -u < /tmp/hosts > /etc/hosts
 
-echo "Initial DNS calculated"
+echo "DNS : Initial /etc/hosts calculated"
 echo "-------------------"
 cat /etc/hosts
 echo
 echo
 
+echo "DNS : initial work complete"
 touch /var/run/dns.init
 
