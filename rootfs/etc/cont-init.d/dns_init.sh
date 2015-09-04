@@ -6,71 +6,56 @@ then
     DNS_INIT_TIMEOUT=45
 fi
 
-( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
+( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "DNS : Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
 
-echo "DNS hacks, initial hosts generation."
+echo "DNS : Initial Setup"
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
-if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
+
+echo "DNS STEP 1 : Creating the dnsmasq-resolv.conf"
+if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" &> /dev/null )
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
+    echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 fi
 
-echo "Contents of dnsmasq-resolv.conf"
+echo "DNS : Contents of dnsmasq-resolv.conf"
 echo "-------------------"
 cat /etc/dnsmasq-resolv.conf
 echo
 echo
 
-if env | grep "TUTUM_CONTAINER_FQDN"
+
+if [ -n "$TUTUM_CONTAINER_FQDN" ]
 then
-    echo "We're running on Tutum"
+    if [ -n "$TUTUM_API_CALLS_FOR_DNS" ] && [ -n "${TUTUM_AUTH}" ]
+    then
+        echo "DNS STEP 2 : Requesting all containers and services from Tutum"
+        . /bin/get_hosts_from_tutum.sh
+    else
+        echo "DNS STEP 2 : Request all containers and services from Tutum (Skipped)"
+        echo "Skipped - set the env var TUTUM_API_CALLS_FOR_DNS and add the role 'global'"
+    fi
+    echo "DNS STEP 3 : Adding the linked services from Tutum"
 
-    env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
-    echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
-    for env_var in $env_vars
-    do
-      host=$(echo $env_var | awk -F"_ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
-      ip=$(eval "echo \$$env_var" | cut -d/ -f1)
-      echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 -q ${ip}
-      do
-        echo "Waiting for IP address ${ip} to be reachable"
-        sleep 1
-      done
-    done
-
-     while ! ping -c 1 -q ${TUTUM_SERVICE_FQDN}
-      do
-        echo "Waiting for service FQDN address ${TUTUM_SERVICE_FQDN} to be reachable"
-        sleep 1
-      done
+    . /bin/tutum_dns_hack.sh
 
 else
-    echo "We're not running on Tutum"
-    env_vars=$(env | grep ".*_PORT_.*_TCP_ADDR=" | cut -d= -f1 | tr '\n' ' ' )
-    echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
-    for env_var in $env_vars
-    do
-      host=$(echo $env_var | awk -F"_PORT_" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
-      ip=$(eval "echo \$$env_var")
-      echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 -q ${ip}
-      do
-        echo "Waiting for IP address ${ip} to be reachable"
-        sleep 1
-      done
-    done
+
+    echo "DNS STEP 2 : Adding the linked services"
+
+    . /bin/non_tutum_dns_hack.sh
 fi
 
 sort -u < /tmp/hosts > /etc/hosts
 
-echo "Initial DNS calculated"
+echo "DNS : Initial /etc/hosts calculated"
 echo "-------------------"
 cat /etc/hosts
 echo
 echo
 
+echo "DNS : initial work complete"
 touch /var/run/dns.init
 
