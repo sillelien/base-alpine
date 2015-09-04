@@ -19,14 +19,17 @@ do
         echo "nameserver 127.0.0.1" > /etc/resolv.conf
     fi
 
+      cp /etc/hosts.orig /tmp/hosts
     . /bin/dns_hack.sh
     . /bin/additional_hosts.sh
+    . /bin/get_hosts_from_tutum.sh
+     cp /etc/hosts /tmp/hosts.orig
 
-     if ! diff /tmp/hosts /etc/hosts.links
+     sort -u < /tmp/hosts > /etc/hosts
+
+     if ! diff /etc/hosts /tmp/hosts.orig
      then
         echo "Updating DNS values"
-        cp -f /tmp/hosts /etc/hosts.links
-        cp  /etc/hosts.orig /etc/hosts
         killall -HUP dnsmasq  &> /dev/null
      else
         echo "No change to DNS values"
