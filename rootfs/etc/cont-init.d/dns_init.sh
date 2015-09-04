@@ -20,7 +20,7 @@ then
     echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 fi
 
-echo "Contents of dnsmasq-resolv.conf"
+echo "DNS : Contents of dnsmasq-resolv.conf"
 echo "-------------------"
 cat /etc/dnsmasq-resolv.conf
 echo
@@ -29,12 +29,12 @@ echo
 
 if env | grep "TUTUM_CONTAINER_FQDN"
 then
-    echo "We're running on Tutum"
     echo "DNS STEP 2 : Requesting all containers and services from Tutum"
 
     . /bin/get_hosts_from_tutum.sh
 
     echo "DNS STEP 3 : Adding the linked services from Tutum"
+
     . /bin/tutum_dns_hack.sh
 else
     echo "DNS STEP 2 : Adding the linked services"
