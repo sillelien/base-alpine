@@ -32,7 +32,7 @@ do
 
      sort -u < /tmp/hosts > /etc/hosts
 
-     if ! diff /etc/hosts /tmp/hosts.orig
+     if ! diff /etc/hosts /tmp/hosts.orig &> /dev/null
      then
         echo "Updating DNS values"
         killall -HUP dnsmasq  &> /dev/null
