@@ -15,7 +15,7 @@ then
               if nslookup "${host}.${suffix}" ${nameserver}
               then
                 ip=$( nslookup "${host}.${suffix}" ${nameserver} | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
-                echo "${ip} ${host}.${suffix}" >> /tmp/hosts
+                echo "${ip} ${host}" >> /tmp/hosts
                 echo "Added additional host ${host}.${suffix}=${ip}"
                 break
               fi
