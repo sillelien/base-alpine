@@ -39,7 +39,7 @@ then
 #            break
 #        done
         curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/container/ > /tmp/containers.raw
-        cat /tmp/containers.raw
+        cat /tmp/containers.raw | jq '.'
 #        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services.raw
     fi
 
