@@ -27,6 +27,11 @@ if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
 
+    if [ -n "${TUTUM_AUTH}" ]
+    then
+        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/
+    fi
+
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
     for env_var in $env_vars

@@ -24,7 +24,3 @@ then
 fi
 
 
-if [ -n "${TUTUM_AUTH}" ]
-then
-    curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/
-fi
