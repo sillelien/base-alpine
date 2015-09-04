@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
 touch /etc/hosts.links
-sleep 1000000
 exec dnsmasq ${DNSMASQ_ARGS} --expand-hosts  --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links --no-daemon 2>&1 | logger

@@ -1,10 +1,9 @@
 #!/usr/bin/with-contenv ash
 
-touch /etc/hosts.links
 
 if [ -z "$DNS_INIT_TIMEOUT" ]
 then
-    DNS_INIT_TIMEOUT=120
+    DNS_INIT_TIMEOUT=45
 fi
 
 ( sleep $DNS_INIT_TIMEOUT ; [ -f /var/run/dns.init ] || ( echo "Timed out setting up DNS." && s6-nuke && kill -2 1 ) ) &
@@ -12,42 +11,35 @@ fi
 echo "DNS hacks, initial hosts generation."
 cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
-#if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
-#then
-#    cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
-#    echo "nameserver 127.0.0.1" > /etc/resolv.conf
-#fi
+if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
+then
+    cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
+    echo "nameserver 127.0.0.1" > /etc/resolv.conf
+fi
 
-#echo "Contents of dnsmasq-resolv.conf"
-#echo "-------------------"
-#cat /etc/dnsmasq-resolv.conf
-#echo
-#echo
+echo "Contents of dnsmasq-resolv.conf"
+echo "-------------------"
+cat /etc/dnsmasq-resolv.conf
+echo
+echo
 
-if [ -n  "$TUTUM_CONTAINER_FQDN" ]
+if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
-
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
     for env_var in $env_vars
     do
       host=$(echo $env_var | awk -F"_ENV_TUTUM_IP_ADDRESS" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var" | cut -d/ -f1)
       echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 -q ${ip}  &> /dev/null
+      while ! ping -c 1 -q ${ip} &> /dev/null
       do
         echo "Waiting for IP address ${ip} to be reachable"
         sleep 1
       done
     done
-
-#     while ! ping -c 1 -q ${TUTUM_SERVICE_FQDN}
-#      do
-#        echo "Waiting for service FQDN address ${TUTUM_SERVICE_FQDN} to be reachable"
-#        sleep 1
-#      done
 
 else
     echo "We're not running on Tutum"
@@ -58,15 +50,13 @@ else
       host=$(echo $env_var | awk -F"_PORT_" '{print $1;}' | tr '_' '-' | tr '[:upper:]' '[:lower:]' )
       ip=$(eval "echo \$$env_var")
       echo "${ip} ${host}" >> /tmp/hosts
-      while ! ping -c 1 -q ${ip}  &> /dev/null
+      while ! ping -c 1 -q ${ip} &> /dev/null
       do
         echo "Waiting for IP address ${ip} to be reachable"
         sleep 1
       done
     done
 fi
-
-. /bin/additional_hosts.sh
 
 sort -u < /tmp/hosts > /etc/hosts
 

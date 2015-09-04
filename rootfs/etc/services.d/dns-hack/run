@@ -3,7 +3,7 @@
 touch /etc/dnsmasq-resolv.conf
 
 echo "Waiting for dnsmasq"
-while ! ps -ef | grep -v grep | grep dnsmasq-resolv.conf
+while ! ps -ef | grep -v grep | grep dnsmasq-resolv.conf  &> /dev/null
 do
     sleep 1
 done
@@ -27,7 +27,7 @@ do
         echo "Updating DNS values"
         cp -f /tmp/hosts /etc/hosts.links
         cp  /etc/hosts.orig /etc/hosts
-        killall -HUP dnsmasq
+        killall -HUP dnsmasq  &> /dev/null
      else
         echo "No change to DNS values"
      fi
