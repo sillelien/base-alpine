@@ -19,11 +19,11 @@ do
         echo "nameserver 127.0.0.1" > /etc/resolv.conf
     fi
 
-      cp /etc/hosts.orig /tmp/hosts
+      cp -f /etc/hosts.orig /tmp/hosts
     . /bin/dns_hack.sh
     . /bin/additional_hosts.sh
     . /bin/get_hosts_from_tutum.sh
-     cp /etc/hosts /tmp/hosts.orig
+     cp -f /etc/hosts /tmp/hosts.orig
 
      sort -u < /tmp/hosts > /etc/hosts
 
