@@ -17,6 +17,7 @@ do
     else
         cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
         echo "nameserver 127.0.0.1" > /etc/resolv.conf
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
     fi
 
     cp -f /etc/hosts.orig /tmp/hosts
