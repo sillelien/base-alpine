@@ -1,7 +1,9 @@
 parseServiceLinks() {
     while read ip service_link host
     do
-        fqdn=$(curl -s -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}${service_link} | jq -r '.public_dns')
+        curl -s -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}${service_link} > /tmp/cur_service
+        fqdn=$(cat /tmp/cur_service | jq -r '.public_dns')
+        host=$(cat /tmp/cur_service  | jq -r '.name')
         echo "${ip} ${host} ${fqdn}" >> /tmp/hosts
     done
 }
