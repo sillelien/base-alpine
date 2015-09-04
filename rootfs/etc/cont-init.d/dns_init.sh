@@ -24,36 +24,12 @@ cat /etc/dnsmasq-resolv.conf
 echo
 echo
 
-parseServiceLinks() {
-    while read ip service_link
-    do
-        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}${service_link}
-        echo
-        echo
-    done
-}
 
 if env | grep "TUTUM_CONTAINER_FQDN"
 then
     echo "We're running on Tutum"
 
-    if [ -n "${TUTUM_AUTH}" ]
-    then
-#        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ | jq -r '.objects | map ( "\(.name) \(.public_dns)" ) | .[]' | tr -d '\n' | tr -d '"' > /tmp services
-#        while read service fqdn< /tmp/services
-#        do
-#            ip=$( nslookup $fqdn | grep Address | tail -1 | cut -d: -f2  | cut -d' ' -f2 2>/dev/null)
-#            echo "${ip} ${host}" >> /tmp/hosts
-#            echo "Added additional host ${host}.${suffix}=${ip}"
-#            break
-#        done
-        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/container/ > /tmp/containers.raw
-        cat /tmp/containers.raw | jq -r '.objects  | map ( "\(.private_ip) \(.name) \(.public_dns)" ) | .[]' | tr -d '"' > /tmp/containers
-        cat /tmp/containers.raw | jq -r '.objects  | map ( "\(.private_ip) \(.service)" ) | .[]' | tr -d '"' | parseServiceLinks
-#        curl -H "Authorization: $TUTUM_AUTH" -H "Accept: application/json" ${TUTUM_REST_HOST}/api/v1/service/ > /tmp/services.raw
-        cat /tmp/containers >> /tmp/hosts
-
-    fi
+   . /bin/get_hosts_from_tutum.sh
 
     env_vars=$(env | grep "_ENV_TUTUM_IP_ADDRESS=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
@@ -70,6 +46,7 @@ then
     done
 
 else
+
     echo "We're not running on Tutum"
     env_vars=$(env | grep ".*_PORT_.*_TCP_ADDR=" | cut -d= -f1 | tr '\n' ' ' )
     echo "#Auto Generated - DO NOT CHANGE" >> /tmp/hosts
@@ -84,6 +61,7 @@ else
         sleep 1
       done
     done
+
 fi
 
 sort -u < /tmp/hosts > /etc/hosts
