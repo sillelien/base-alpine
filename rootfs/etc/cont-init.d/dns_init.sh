@@ -13,7 +13,7 @@ cp /etc/hosts /etc/hosts.orig
 cp /etc/hosts /tmp/hosts
 
 echo "DNS STEP 1 : Creating the dnsmasq-resolv.conf"
-if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" )
+if ! ( cat /etc/resolv.conf | grep "nameserver 127.0.0.1" &> /dev/null )
 then
     cp -f /etc/resolv.conf /etc/dnsmasq-resolv.conf
     echo "nameserver 127.0.0.1" > /etc/resolv.conf
@@ -27,7 +27,7 @@ echo
 echo
 
 
-if env | grep "TUTUM_CONTAINER_FQDN"
+if [ -n "$TUTUM_CONTAINER_FQDN" ]
 then
     echo "DNS STEP 2 : Requesting all containers and services from Tutum"
 
