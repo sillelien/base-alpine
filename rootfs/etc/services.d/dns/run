@@ -1,3 +1,2 @@
-#!/usr/bin/env sh
-touch /etc/hosts.links
-exec dnsmasq ${DNSMASQ_ARGS} --expand-hosts  --resolv-file=/etc/dnsmasq-resolv.conf --addn-hosts=/etc/hosts.links --no-daemon 2>&1 | logger
+#!/usr/bin/with-contenv sh
+exec go-dnsmasq --default-resolver --append-domain --hostsfile=/etc/hosts ${DNSMASQ_ARGS} 2>&1 | logger
